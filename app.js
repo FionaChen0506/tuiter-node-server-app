@@ -13,7 +13,8 @@ const app = express();
 app.use(
     cors({
       credentials: true,
-      origin: ["http://localhost:3000", "https://a5--cheerful-blancmange-56884a.netlify.app/"] // use different front end URL in dev and in production
+      //origin: ["http://localhost:3000", "https://a5--cheerful-blancmange-56884a.netlify.app/"] // use different front end URL in dev and in production
+      origin: process.env.FRONTEND_URL,
     })
 );
 // const sessionOptions = { // configure server session after cors
