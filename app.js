@@ -13,8 +13,7 @@ const app = express();
 app.use(
     cors({
       credentials: true,
-      origin: "http://localhost:3000",
-      origin: process.env.FRONTEND_URL // use different front end URL in dev and in production
+      origin: ["http://localhost:3000", "https://tuiter-node-server-app-pv83.onrender.com/"], // use different front end URL in dev and in production
     })
 );
 // const sessionOptions = { // configure server session after cors
