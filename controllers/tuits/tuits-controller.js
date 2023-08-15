@@ -14,6 +14,8 @@ const createTuit = async (req, res) => {
     newTuit.time = "1 min",
     newTuit.image = "tuit-image5.jpg",
     newTuit.title = "Untitled";
+    newTuit.retuits = 0;
+    newTuit.replies = 0;
     //tuits.push(newTuit);
     const insertedTuit = await tuitsDao.createTuit(newTuit); // actual tuit inserted in database with DAO's createTuit
     res.json(insertedTuit);
