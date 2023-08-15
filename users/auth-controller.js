@@ -65,7 +65,7 @@ const AuthController = (app) => {
       return;
     }
     res.json(currentUser);
-    console.log("current user", currentUser)
+    //console.log("current user", currentUser)
  };
 
  const logout  = async (req, res) => {

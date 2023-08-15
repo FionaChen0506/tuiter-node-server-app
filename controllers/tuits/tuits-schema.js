@@ -7,6 +7,8 @@ const schema = mongoose.Schema({ // create the schema
   dislikes: Number,
   disliked: Boolean,
   handle: String,
+  retuits: Number,
+  replies: Number,
   image: String,
   time: String,
 }, {collection: 'tuits'}); // collection name where tuits are stored in tuiter database
