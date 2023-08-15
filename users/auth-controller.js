@@ -1,5 +1,5 @@
 import * as usersDao from "./users-dao.js";
-
+var currentUserVar;
 const AuthController = (app) => {
     
  const register = async (req, res) => { 
@@ -23,7 +23,7 @@ const AuthController = (app) => {
       res.sendStatus(403);
       return;
     }
-    const newUser = await userDao.createUser(req.body);
+    const newUser = await usersDao.createUser(req.body);
     req.session["currentUser"] = newUser;
     res.json(newUser);
  };
@@ -58,7 +58,7 @@ const AuthController = (app) => {
   };
  
   const profile  = async (req, res) => { 
-    //console.log("profile function called")
+   //const currentUser = currentUserVar;
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(404);
@@ -73,25 +73,35 @@ const AuthController = (app) => {
     res.sendStatus(200);
   };
 
- const update = (req, res) => {
-    const username = req.body.username;
-    const currentUser = usersDao.findUserByUsername(username);
-
-    const updates = req.body;
-    const updateResult = usersDao.updateUser(currentUser._id, updates);
-    if (updateResult && updateResult.status === 'ok') {
+ const update = async (req, res) => {
+    // const username = req.body.username;
+    // //const currentUser = usersDao.findUserByUsername(username);
+    // const currentUser = req.session["currentUser"];
+    // const updates = req.body;
+    // const updateResult = usersDao.updateUser(currentUser._id, updates);
+    // if (updateResult && updateResult.status === 'ok') {
       // // Update the current user in the session
       // req.session["currentUser"] = { ...currentUser, ...updates };
       // const updatedUser = { ...updates };
       // res.status(200).json({ user: updatedUser });
-      const userId = user._id;
-      usersDao.updateUser(userId, updateInfo);
-      res.sendStatus(200);
-      //console.log("User updated", updatedUser);
-    } else {
-      res.sendStatus(404);
-    }
+    // } else {
+    //   res.sendStatus(404);
+    // }
 
+    const user = await usersDao.updateUser(req.body._id, req.body);
+    if (user) {
+      //currentUserVar = user;
+      //req.session["currentUser"] = user;
+      //res.status(200).json({ user: currentUserVar });
+
+      req.session["currentUser"] = { ...user, ...req.body };
+      const updatedUser = { ...req.body };
+      res.status(200).json({ user: updatedUser });
+
+      //return res.json(currentUserVar);
+    } else {
+      res.sendStatus(500);
+    }
    };
 
  app.post("/api/users/register", register);
