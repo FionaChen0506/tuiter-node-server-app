@@ -73,21 +73,25 @@ const AuthController = (app) => {
     res.sendStatus(200);
   };
 
- const update = async (req, res) => {
+ const update = (req, res) => {
     const username = req.body.username;
     const currentUser = usersDao.findUserByUsername(username);
 
     const updates = req.body;
     const updateResult = usersDao.updateUser(currentUser._id, updates);
     if (updateResult && updateResult.status === 'ok') {
-      // Update the current user in the session
-      req.session["currentUser"] = { ...currentUser, ...updates };
-      const updatedUser = { ...updates };
-      res.status(200).json({ user: updatedUser });
+      // // Update the current user in the session
+      // req.session["currentUser"] = { ...currentUser, ...updates };
+      // const updatedUser = { ...updates };
+      // res.status(200).json({ user: updatedUser });
+      const userId = user._id;
+      usersDao.updateUser(userId, updateInfo);
+      res.sendStatus(200);
       //console.log("User updated", updatedUser);
     } else {
       res.sendStatus(404);
     }
+
    };
 
  app.post("/api/users/register", register);
