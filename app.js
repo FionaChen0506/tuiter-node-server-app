@@ -8,13 +8,20 @@ import session from "express-session";
 import AuthController from './users/auth-controller.js';
 
 
+import mongoose from "mongoose";
+//mongoose.connect("mongodb://127.0.0.1:27017/tuiter");
+
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/tuiter';
+mongoose.connect(CONNECTION_STRING);
+
 const app = express();
 //app.use(cors());
 app.use(
     cors({
       credentials: true,
       //origin: ["http://localhost:3000", "https://a5--cheerful-blancmange-56884a.netlify.app/"] // use different front end URL in dev and in production
-      origin: process.env.FRONTEND_URL,
+      //origin: process.env.FRONTEND_URL,
+      origin: "http://localhost:3000",
     })
 );
 // const sessionOptions = { // configure server session after cors
